@@ -4,8 +4,6 @@ from pyrogram import Client, filters
 from telegraph import upload_file
 from config import Config
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-
-
 sbot = Client(
    "Telegraph Uploader",
    api_id=Config.APP_ID,
@@ -61,18 +59,13 @@ async def about(client, message):
                             ),        
             disable_web_page_preview=True,        
             parse_mode="html")
-            
-           
-        
-            
-         
 @sbot.on_message(filters.photo)
 async def telegraphphoto(client, message):
     msg = await message.reply_text("جاري تحويل الصوره الي تليجراف ميديا...")
     download_location = await client.download_media(
         message=message, file_name='root/SBtg')
     try:
-        if os.path.getsize(download_location) > 50 * 1024 * 1024
+        response = upload_file(download_location)
     except:
         await msg.edit_text("يجب ان يكون حجم الملف اقل من 5 ميجا!") 
     else:
@@ -87,7 +80,7 @@ async def telegraphvid(client, message):
     download_location = await client.download_media(
         message=message, file_name='root/SBtg')
     try:
-        if os.path.getsize(download_location) > 50 * 1024 * 1024
+        response = upload_file(download_location)
     except:
         await msg.edit_text("بجب ان يكون حجم الفيديو اقل من 5 ميجا!") 
     else:
@@ -102,7 +95,7 @@ async def telegraphgif(client, message):
     download_location = await client.download_media(
         message=message, file_name='root/SBtg')
     try:
-        if os.path.getsize(download_location) > 50 * 1024 * 1024
+        response = upload_file(download_location)
     except:
         await msg.edit_text("يجب ان تكون الصوره المتحركه اقل من 5 ميجا!") 
     else:
